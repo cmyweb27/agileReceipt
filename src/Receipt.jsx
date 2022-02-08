@@ -6,11 +6,11 @@ import * as yup from "yup";
 import axios from "axios";
 import { Typography, TextField, Grid, Button, Box } from "@mui/material";
 const schema = yup.object().shape({
-  firstName: yup.string().required(),
+  name: yup.string().required(),
   lastName: yup.string().required(),
   phoneNumber: yup.string().required(),
   email: yup.string().email().required(),
-  //   paymentType: yup.string().required(),
+  mode: yup.string().required(),
   cost: yup.number().required(),
 });
 function Receipt() {
@@ -26,9 +26,18 @@ function Receipt() {
   } = useForm({
     resolver: yupResolver(schema),
   });
+  let current = new Date();
+  let date = current.toDateString();
+  let time = current.toTimeString().split(" ")[0];
+
   const formHandler = async (data) => {
     console.log(data, "data");
+    // delete data.cost;
+    data.date = date;
+    data.time = time;
 
+    // data.mode = mode;
+    // data.membership = member;
     await axios
       .post(
         "https://5ph5259cx1.execute-api.eu-west-1.amazonaws.com/prod/paystack-api",
@@ -39,44 +48,6 @@ function Receipt() {
         handleSent();
       })
       .catch((err) => err);
-    // delete data.cost;
-    // data.date = date;
-    // data.time = time;
-
-    // data.mode = mode;
-    // data.membership = member;
-    // data.value = price;
-
-    // if (data.paymentType === "bankPayment") {
-    //   axios
-    //     .post(
-    //       "https://ws8osh4cr1.execute-api.eu-west-1.amazonaws.com/second/secondtry",
-    //       data
-    //     )
-    //     .then((res) => {
-    //       if (res.data === "success") {
-    //       }
-    //     })
-    //     .catch((err) => err);
-    // }
-
-    // if (data.paymentType === "cardPayment") {
-    //   data.type = "Card Payment";
-    //   console.log("in card payment");
-    //   axios
-    //     .post(
-    //       //"https://ws8osh4cr1.execute-api.eu-west-1.amazonaws.com/test/conferenceRegistration",
-    //       "https://pqn3elm16i.execute-api.eu-west-1.amazonaws.com/dev/flutter-payment",
-    //       data
-    //     )
-    //     .then((res) => {
-    //       console.log(res, "res");
-    //       if (res.data.status === "success") {
-    //         window.location.replace(res.data.data.link);
-    //       }
-    //     })
-    //     .catch((err) => err);
-    // }
   };
   return (
     <div>
@@ -86,12 +57,12 @@ function Receipt() {
           <Grid item xs={12} sm={6}>
             <TextField
               required
-              {...register("firstName", {
+              {...register("name", {
                 required: "Required",
               })}
-              id="firstName"
-              name="firstName"
-              label="First name"
+              id="name"
+              name="name"
+              label="name"
               fullWidth
               autoComplete="given-name"
               variant="standard"
@@ -159,7 +130,7 @@ function Receipt() {
               </Typography>
             )}
           </Grid>
-          <Grid item xs={12} sm={12}>
+          <Grid item xs={12} sm={6}>
             <TextField
               required
               {...register("cost", {
@@ -180,7 +151,27 @@ function Receipt() {
               </Typography>
             )}
           </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              {...register("mode", {
+                required: "Required",
+              })}
+              //defaultValue={price}
+              // id="email"
+              name="mode"
+              label="Description"
+              fullWidth
+              // autoComplete="email adress"
+              variant="standard"
+            />
 
+            {errors.mode && (
+              <Typography variant="caption" color="#FF0000">
+                {errors.mode?.type}
+              </Typography>
+            )}
+          </Grid>
           {/* <Grid item xs={12} sm={6}>
             <RadioGroup name="paymentType">
               {" "}
