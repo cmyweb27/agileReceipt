@@ -2,19 +2,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-// import useStore from "./store";
-import Checkbox from "@mui/material/Checkbox";
+
 import axios from "axios";
-import {
-  Typography,
-  TextField,
-  Grid,
-  FormControlLabel,
-  Button,
-  Box,
-  Radio,
-  RadioGroup,
-} from "@mui/material";
+import { Typography, TextField, Grid, Button, Box } from "@mui/material";
 const schema = yup.object().shape({
   firstName: yup.string().required(),
   lastName: yup.string().required(),
