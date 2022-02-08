@@ -216,7 +216,7 @@ function Receipt() {
         <Box sx={{ textAlign: "center", mt: 3 }}>
           {" "}
           <Button variant="contained" onClick={handleSubmit(formHandler)}>
-            <Typography>Add Attendee</Typography>
+            <Typography variant="subtitle2">Send Receipt</Typography>
           </Button>
         </Box>
         {/* <Box sx={{ textAlign: "center", mt: 2 }}>
@@ -227,7 +227,11 @@ function Receipt() {
         </Box> */}
       </form>
 
-      {sent && <Typography variant="h4">Mail has been sent</Typography>}
+      {sent && (
+        <Typography variant="h4" textAlign="center">
+          Mail has been sent
+        </Typography>
+      )}
     </div>
   );
 }
