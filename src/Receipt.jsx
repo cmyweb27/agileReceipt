@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -11,9 +11,13 @@ const schema = yup.object().shape({
   phoneNumber: yup.string().required(),
   email: yup.string().email().required(),
   //   paymentType: yup.string().required(),
-  //   cost: yup.number().required(),
+  cost: yup.number().required(),
 });
 function Receipt() {
+  const [sent, setSent] = useState(false);
+  const handleSent = () => {
+    setSent(true);
+  };
   const {
     register,
     handleSubmit,
@@ -32,6 +36,7 @@ function Receipt() {
       )
       .then((res) => {
         console.log(res, "success");
+        handleSent();
       })
       .catch((err) => err);
     // delete data.cost;
@@ -163,7 +168,7 @@ function Receipt() {
               //defaultValue={price}
               // id="email"
               name="cost"
-              label="price"
+              label="Amount Paid"
               fullWidth
               // autoComplete="email adress"
               variant="standard"
@@ -221,6 +226,8 @@ function Receipt() {
           </Button>
         </Box> */}
       </form>
+
+      {sent && <Typography variant="h4">Mail has been sent</Typography>}
     </div>
   );
 }
